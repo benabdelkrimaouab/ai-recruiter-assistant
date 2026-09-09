@@ -1,0 +1,12 @@
+{
+  "name": "AI Recruiter Assistant - Error Handler",
+  "nodes": [
+    {"parameters":{},"id":"bd06aaaf-4a80-4dd4-9006-e73dc7da1dd6","name":"On Workflow Error","type":"n8n-nodes-base.errorTrigger","typeVersion":1,"position":[320,224]},
+    {"id":"391974b1-456d-4e38-ac90-823dab4cd477","name":"Config","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[432,224],"parameters":{"assignments":{"assignments":[{"id":"a1","name":"telegram_chat_id","type":"string","value":"YOUR_TELEGRAM_CHAT_ID"}]},"options":{}}},
+    {"parameters":{"chatId":"={{ $('Config').item.json.telegram_chat_id }}","text":"={{ '🚨 AI Recruiter Assistant - Workflow Failed\\n\\nWorkflow: ' + $json.workflow.name + '\\nNode: ' + $json.execution.lastNodeExecuted + '\\nError: ' + $json.execution.error.message + '\\nTime: ' + $now.toISO() + '\\n\\nOpen n8n to inspect the failed execution.' }}","additionalFields":{"appendAttribution":false,"parse_mode":"HTML"}},"id":"f479d8dd-2320-466f-9b19-b6be611a8ffd","name":"Alert Recruiting Team (Telegram)","type":"n8n-nodes-base.telegram","typeVersion":1.2,"position":[544,224],"webhookId":"b5fca6ac-0be6-4dda-b476-3549610c32d7","credentials":{"telegramApi":{"id":"OuGflQv0D3G44MzW","name":"Telegram account"}}},
+    {"parameters":{"content":"## Error Handling\\nThis workflow is triggered automatically whenever the AI Recruiter Assistant workflow fails on any node. It sends an immediate Telegram alert with the failing node and error message so a human can intervene quickly. Wired up via the main workflow's Settings -> Error Workflow.","height":200,"width":300,"color":3},"id":"211c2173-c592-4031-aea1-37de5e580fa4","name":"Sticky Note 0bbed2fa","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[0,0]}
+  ],
+  "connections": {"On Workflow Error":{"main":[[{"node":"Config","type":"main","index":0}]]},"Config":{"main":[[{"node":"Alert Recruiting Team (Telegram)","type":"main","index":0}]]}},
+  "settings": {"executionOrder":"v1"},
+  "pinData": {}
+}
